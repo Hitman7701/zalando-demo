@@ -23,9 +23,9 @@
         <img src="../assets/img/logo_fcp7ga.svg" alt="Logo Zalando" />
 
         <nav>
-          <p>Icône 1</p>
-          <p>Icône 2</p>
-          <p>Icône 3</p>
+          <font-awesome-icon :icon="['far', 'user']" />
+          <font-awesome-icon :icon="['far', 'heart']" />
+          <font-awesome-icon :icon="['fas', 'shopping-bag']" />
         </nav>
       </div>
     </div>
@@ -89,5 +89,17 @@ nav a {
 nav a:first-child {
   background-color: var(--main-black);
   color: white;
+}
+
+svg {
+  color: var(--main-black);
+  padding: 10px;
+  border: 2px solid white;
+  box-sizing: content-box;
+  cursor: pointer;
+}
+
+svg:hover {
+  border: 2px solid var(--main-black);
 }
 </style>
