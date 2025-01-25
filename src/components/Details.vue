@@ -4,6 +4,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  selectedVariant: {
+    type: Object,
+    required: true,
+  },
 })
 </script>
 
@@ -21,9 +25,20 @@ const props = defineProps({
 
       <span>{{ productInfo.rate }}</span>
     </div>
+
+    <p>
+      Couleur : <span class="selectedColor"> {{ selectedVariant.color }}</span>
+    </p>
+
     <p class="advise">
       Nous vous recommandons de choisir une taille au-dessus de celle habituelle.
     </p>
+
+<div class="sizes-bloc">
+  <div v-for="(quantity, size) in selectedVariant.sizes" :key="size" :class="{outOfStock : quantity === 0}">{{ size }}</div>
+</div>
+
+
     <div class="cart-bloc">
       <button>Ajouter au panier</button>
 
@@ -53,6 +68,10 @@ h1 + p span {
   margin-right: 3px;
 }
 
+.selectedColor {
+  font-weight: bold;
+}
+
 .advise {
   background-color: #efeff0;
   padding: 20px;
@@ -60,6 +79,26 @@ h1 + p span {
   line-height: 20px;
   font-weight: lighter;
   margin-bottom: 10px;
+}
+
+.sizes-bloc {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sizes-bloc div {
+  border: 1px solid var(--main-black);
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.outOfStock {
+  opacity: 0.3;
 }
 
 .cart-bloc {
