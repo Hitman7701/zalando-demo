@@ -9,6 +9,15 @@ const props = defineProps({
     required: true,
   },
 })
+
+const isVariantSoldOut = (sizes) => {
+  for (const key in sizes) {
+    if (sizes[key] > 0) {
+      return false
+    }
+  }
+  return true
+}
 </script>
 
 <template>
@@ -30,14 +39,31 @@ const props = defineProps({
       Couleur : <span class="selectedColor"> {{ selectedVariant.color }}</span>
     </p>
 
+    <div class="img-bloc">
+      <img
+        v-for="variant in productInfo.variants"
+        :src="variant.image.url"
+        :alt="variant.image.alt"
+        :class="{
+          selectedImg: variant.id === selectedVariant.id,
+          outOfStock: isVariantSoldOut(variant.sizes),
+        }"
+      />
+    </div>
+
     <p class="advise">
       Nous vous recommandons de choisir une taille au-dessus de celle habituelle.
     </p>
 
-<div class="sizes-bloc">
-  <div v-for="(quantity, size) in selectedVariant.sizes" :key="size" :class="{outOfStock : quantity === 0}">{{ size }}</div>
-</div>
-
+    <div class="sizes-bloc">
+      <div
+        v-for="(quantity, size) in selectedVariant.sizes"
+        :key="size"
+        :class="{ outOfStock: quantity === 0 }"
+      >
+        {{ size }}
+      </div>
+    </div>
 
     <div class="cart-bloc">
       <button>Ajouter au panier</button>
@@ -70,6 +96,18 @@ h1 + p span {
 
 .selectedColor {
   font-weight: bold;
+}
+
+.img-bloc {
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+}
+
+img {
+  width: 60px;
+  height: 70px;
+  object-fit: cover;
 }
 
 .advise {
