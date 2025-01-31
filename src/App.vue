@@ -8,15 +8,30 @@ import { reactive, ref } from 'vue'
 const productInfo = reactive(data)
 
 const selectedVariant = ref(data.variants[0])
+
+const cart = reactive([])
+
+const changeVariant = (variant) => {
+  selectedVariant.value = variant
+}
+
+const addToCart = (product) => {
+  cart.push(product)
+}
 </script>
 
 <template>
-  <Header />
+  <Header :cart="cart" />
   <main>
     <div class="container">
-      <div></div>
+      <div><img :src="selectedVariant.image.url" :alt="selectedVariant.image.alt" /></div>
       <div>
-        <Details :productInfo="productInfo" :selectedVariant="selectedVariant" />
+        <Details
+          @addProductToCart="addToCart"
+          @changeSelectedVariant="changeVariant"
+          :productInfo="productInfo"
+          :selectedVariant="selectedVariant"
+        />
         <!--  -->
       </div>
     </div>
@@ -33,11 +48,21 @@ const selectedVariant = ref(data.variants[0])
 }
 .container > div {
   width: 50%;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   box-sizing: border-box;
 }
 
 .container > div:last-child {
   padding: 25px 0 25px 100px;
+}
+
+.container > div:first-child {
+  padding: 25px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
